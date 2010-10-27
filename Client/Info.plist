@@ -8,7 +8,13 @@
 	<string>Client</string>
 	<key>CPPrincipalClass</key>
 	<string>CPApplication</string>
+	<key>SCAuthLoginURL</key>
+	<string>/users/sign_in.json</string>
+	<key>SCAuthRegistrationURL</key>
+	<string>/users.json</string>
 	<key>SCAuthUserCheckURL</key>
 	<string>/profiles/</string>
+	<key>SCAuthLogoutURL</key>
+	<string>/logout.json</string>
 </dict>
 </plist>
