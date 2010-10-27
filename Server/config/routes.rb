@@ -1,6 +1,7 @@
 Server::Application.routes.draw do
-  devise_for :users
-
+  devise_for :users do
+    delete "/logout" => "devise/sessions#destroy"
+  end
   resources :projects, :tasks
   root :to => "projects#index"
   # The priority is based upon order of creation:
