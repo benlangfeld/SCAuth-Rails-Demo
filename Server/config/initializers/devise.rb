@@ -21,6 +21,8 @@ Devise.setup do |config|
   # The realm used in Http Basic Authentication
   # config.http_authentication_realm = "Application"
 
+  config.http_authenticatable_on_xhr = false
+
   # ==> Configuration for :database_authenticatable
   # Invoke `rake secret` and use the printed value to setup a pepper to generate
   # the encrypted password. By default no pepper is used.
@@ -113,4 +115,34 @@ Devise.setup do |config|
   #   end
   #   manager.default_strategies(:scope => :user).unshift :twitter_oauth
   # end
-end
+    config.warden do |manager|
+      manager.failure_app = CustomFailure
+    end
+  end
+
+  class CustomFailure < Devise::FailureApp
+    def respond
+      if http_auth?
+        http_auth
+      elsif request.xhr?
+        http_auth
+        self.status = 403
+      elsif warden_options[:recall]
+        recall
+      else
+        redirect
+      end
+    end
+
+    def http_auth?
+      if request.xhr?
+        Devise.http_authenticatable_on_xhr
+      else
+        !Devise.navigational_formats.include?(request.format.to_sym)
+      end
+    end
+
+    def http_auth_header?
+      Devise.mappings[scope].to.http_authenticatable && !request.xhr?
+    end
+  end
