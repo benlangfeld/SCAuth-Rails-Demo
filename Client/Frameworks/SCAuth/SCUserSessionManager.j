@@ -214,8 +214,8 @@ var SCDefaultSessionManager = nil;
 
     if (aConnection === _sessionSyncConnection) {
         var delegate = aConnection.delegate;
-        if (responseBody.username)
-            [self _setCurrentUser:responseBody.username];
+        if (responseBody.email)
+            [self _setCurrentUser:responseBody.email];
         if (delegate && [delegate respondsToSelector:@selector(sessionSyncDidSucceed:)])
             [delegate sessionSyncDidSucceed:self];
     }

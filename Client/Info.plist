@@ -14,6 +14,8 @@
 	<string>/users.json</string>
 	<key>SCAuthUserCheckURL</key>
 	<string>/profiles/</string>
+	<key>SCAuthSyncURL</key>
+	<string>/user_sessions.json</string>
 	<key>SCAuthLogoutURL</key>
 	<string>/logout.json</string>
 </dict>

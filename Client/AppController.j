@@ -53,6 +53,9 @@
     [theWindow orderFront:self];
     // End of layout code
     [[SCUserSessionManager defaultManager] setLoginProvider:[SCEmailLoginDialogController defaultController]];
+    // Sync current login state
+    CPLog.debug("Checking current login state");
+    [[SCUserSessionManager defaultManager] syncSession:self];
 }
 
 - (void)unauthorizedAction:(id)sender
@@ -108,6 +111,15 @@
 - (void)logoutDidSucceed:(SCUserSessionManager)sessionManager
 {
     [self successfulAlertWithMessage:@"You logged out successfully!"];
+}
+
+- (void)sessionSyncDidSucceed:(SCUserSessionManager)sessionManager
+{
+    var userEmail = [[SCUserSessionManager defaultManager] userDisplayName];
+    if (userEmail)
+        CPLog.debug("Currently logged in user: " + userEmail);
+    else
+        CPLog.debug("No user currently logged in.");
 }
 
 - (void)logout:(id)sender
