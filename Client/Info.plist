@@ -8,5 +8,7 @@
 	<string>Client</string>
 	<key>CPPrincipalClass</key>
 	<string>CPApplication</string>
+	<key>SCAuthUserCheckURL</key>
+	<string>/profiles/</string>
 </dict>
 </plist>

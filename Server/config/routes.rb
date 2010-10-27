@@ -2,6 +2,7 @@ Server::Application.routes.draw do
   devise_for :users do
     delete "/logout" => "devise/sessions#destroy"
   end
+  match 'profiles/*email(.:format)' => 'profiles#show', :defaults => {:format => :json}
   resources :projects, :tasks
   root :to => "projects#index"
   # The priority is based upon order of creation:
