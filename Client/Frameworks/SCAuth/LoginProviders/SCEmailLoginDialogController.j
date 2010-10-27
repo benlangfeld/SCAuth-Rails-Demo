@@ -40,4 +40,35 @@ var DefaultLoginDialogController = nil;
         DefaultLoginDialogController = [self newLoginDialogController];
     return DefaultLoginDialogController;
 }
+
+/* @ignore */
+- (void)_loginUser:(CPString)username password:(CPString)password
+{
+    var shouldRemember = ([_rememberMeButton state] === CPOnState);
+    var loginObject = {'user' : {'email' : username, 'password' : password, 'remember' : shouldRemember}};
+    var request = [CPURLRequest requestWithURL:[[CPBundle mainBundle] objectForInfoDictionaryKey:@"SCAuthLoginURL"] || @"/session/"];
+
+    [request setHTTPMethod:@"POST"];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    [request setHTTPBody:[CPString JSONFromObject:loginObject]];
+    _loginConnection = [_connectionClass connectionWithRequest:request
+                                                       delegate:self];
+    _loginConnection.username = username;
+}
+
+/* @ignore */
+- (void)_registerUser:(CPString)username password:(CPString)password
+{
+    var shouldRemember = ([_rememberMeButton state] === CPOnState);
+    var registerObject = {'user' : {'email' : username, 'password' : password, 'remember' : shouldRemember}};
+    var request = [CPURLRequest requestWithURL:[[CPBundle mainBundle] objectForInfoDictionaryKey:@"SCAuthRegistrationURL"] || @"/user/"];
+
+    [request setHTTPMethod:@"POST"];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    [request setHTTPBody:[CPString JSONFromObject:registerObject]];
+    _registrationConnection = [_connectionClass connectionWithRequest:request
+                                                             delegate:self];
+    _registrationConnection.username = username;
+}
+
 @end
